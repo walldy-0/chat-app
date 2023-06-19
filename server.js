@@ -22,18 +22,18 @@ const io = socket(server);
 io.on('connection', (socket) => {
   socket.on('login', (userName) => {
     users.push({ name: userName, id: socket.id });
+    socket.broadcast.emit('message', { author: 'Chat Bot', content: userName + ' has joined the conversation.' })
   });
 
   socket.on('message', (message) => {
-    console.log('Oh, I\'ve got something from ' + socket.id);
     messages.push(message);
     socket.broadcast.emit('message', message);
   });
 
   socket.on('disconnect', () => {
-    console.log('Oh, socket ' + socket.id + ' has left');
     const indexToRemove = users.findIndex(user => user.id === socket.id);
     if (indexToRemove > -1) {
+      socket.broadcast.emit('message', { author: 'Chat Bot', content: users[indexToRemove].name + ' has left the conversation.' })
       users.splice(indexToRemove, 1);
     }
   });

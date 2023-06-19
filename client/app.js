@@ -40,6 +40,9 @@ const addMessage = (author, content) => {
 
   const contentDiv = document.createElement('div');
   contentDiv.classList.add('message__content');
+  if (author === 'Chat Bot') {
+    contentDiv.classList.add('message--bot');
+  }
   contentDiv.innerHTML = content;
   message.appendChild(contentDiv);
 
