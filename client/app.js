@@ -18,6 +18,8 @@ const login = e => {
     userName = user;
     loginForm.classList.remove('show');
     messagesSection.classList.add('show');
+    socket.emit('login', userName);
+    userNameInput.value = '';
   } else {
     alert('Your name can not be empty');
   }
@@ -50,7 +52,7 @@ const sendMessage = e => {
   const messageContent = messageContentInput.value.trim();
   if (messageContent.length > 0) {
     addMessage(userName, messageContent);
-    socket.emit('message', { author: userName, content: messageContent })
+    socket.emit('message', { author: userName, content: messageContent });
     messageContentInput.value = '';
   } else {
     alert('Type your message');
